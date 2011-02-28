@@ -1,0 +1,50 @@
+# -*- rpm-spec -*-
+
+Summary: ocaml bindings for inotify
+Name:    ocaml-inotify
+Version: 0
+Release: @RPM_RELEASE@
+Group:   Development/Other
+License: LGPL+linking exception
+URL:  https://github.com/vincenthz/ocaml-inotify
+Source0: ocaml-inotify.tar.bz2
+BuildRoot: %{_tmppath}/%{name}-%{version}-root
+BuildRequires: ocaml, ocaml-findlib, ocaml-camlp4
+
+%description
+Ocaml bindings for the linux inotify system.
+
+%package devel
+Summary: Ocaml library for inotify
+Group: Development/Other
+
+%description devel
+This package contains the ocaml bindings for inotify.
+
+%prep 
+%setup -q
+%build
+mkdir $RPM_BUILD_ROOT
+DESTDIR=$RPM_BUILD_ROOT %{__make} libs
+
+%install
+rm -rf %{buildroot}
+
+DESTDIR=$RPM_BUILD_ROOT %{__make} install
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files devel
+%defattr(-,root,root,-)
+   /usr/lib/ocaml/inotify/META
+   /usr/lib/ocaml/inotify/dllinotify_stubs.so
+   /usr/lib/ocaml/inotify/inotify.a
+   /usr/lib/ocaml/inotify/inotify.cma
+   /usr/lib/ocaml/inotify/inotify.cmi
+   /usr/lib/ocaml/inotify/inotify.cmx
+   /usr/lib/ocaml/inotify/inotify.cmxa
+   /usr/lib/ocaml/inotify/inotify.mli
+   /usr/lib/ocaml/inotify/libinotify_stubs.a
+
+%changelog
